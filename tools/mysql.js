@@ -32,8 +32,10 @@ exports.selectScreenName = function(screen_name, twitts, callback){
 exports.insertTwit = function(twit, callback){
   var screen_name = parse.escapeSQL(twit.user.screen_name);
   var created_at = parse.toSQLDateTime(twit.created_at);
+  var author = parse.escapeSQL(twit.user.name);
+  var twitID = twit.id;
   var text = parse.escapeSQL(twit.text);
-  var query_string = 'INSERT INTO Twitter(ScreenName, DateTime, Text) VALUE(\'' + screen_name + '\', \'' + created_at + '\', \'' + text + '\');';
+  var query_string = 'INSERT INTO Twitter(ScreenName, DateTime, Text, Author, TwittsID) VALUE(\'' + screen_name + '\', \'' + created_at + '\', \'' + text + '\', \'' + author + '\', \'' + twitID + '\');';
 
   var query = connection.query(query_string);
   query.on('error', function(err) {

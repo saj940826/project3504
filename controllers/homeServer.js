@@ -26,38 +26,55 @@ module.exports = function(app) {
         var twitts = [];
         var pname = req.body.player_name;
         //var team = req.body.team;
-        if (pname == 'All') {
-            var query = connection.query('SELECT * FROM Twitter', queryCallBack);
-        } else {
-            mysql.selectScreenName(pname, twitts, function(results) {
-                if (results.length > 0) {
-                    var cutTime = results[0].created_at.toISOString().split("T")[0];
-                    console.log(results[0]);
-                    client.get('search/tweets', {
-                        q: results[0].auther + ' since:' + cutTime,
-                        count: 100
-                    }, function(err, data, response) {
-                        for (var indx in data.statuses) {
-                            var tweet = data.statuses[indx];
-                            mysql.insertTwit(tweet);
-                            results.push({
-                                author: tweet.user.screen_name,
-                                content: tweet.text,
-                                created_at: tweet.created_at
-                            });
-                        }
-                        res.render('home', {
-                            results: results
+
+        mysql.selectScreenName(pname, twitts, function(results) {
+            if (results.length > 0) {
+                var cutTime = results[0].created_at.toISOString().split("T")[0];
+                console.log(results[0]);
+                client.get('search/tweets', {
+                    q: results[0].author + ' since:' + cutTime,
+                    count: 100
+                }, function(err, data, response) {
+                    for (var indx in data.statuses) {
+                        var tweet = data.statuses[indx];
+
+                        mysql.insertTwit(tweet);
+                        results.push({
+                            author: tweet.user.screen_name,
+                            content: tweet.text,
+                            created_at: tweet.created_at
                         });
-                    });
-                } else {
+                    }
                     res.render('home', {
-                        results: [],
-                        noResult: true
+                        results: results
                     });
-                }
-            })
-        }
+                });
+            } else {
+              client.get('search/tweets', {
+                  q: pname,
+                  count: 100
+              }, function(err, data, response) {
+                  for (var indx in data.statuses) {
+                      var tweet = data.statuses[indx];
+                      mysql.insertTwit(tweet);
+                      results.push({
+                          author: tweet.user.screen_name,
+                          content: tweet.text,
+                          created_at: tweet.created_at
+                      });
+                  }
+                  res.render('home', {
+                      results: results
+                  });
+              });
+
+                //res.render('home', {
+
+                    //results: [],
+                    //noResult: true
+            //  });
+            }
+        })
         //var query = connection.query('SELECT * FROM Twitter');
 
     });
