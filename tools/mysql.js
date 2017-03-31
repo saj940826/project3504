@@ -16,12 +16,13 @@ exports.selectScreenName = function(screen_name, twitts, callback){
       if (err) {
           throw err;
       } else {
-          console.log("Length: "+rows.length);
           for (var i = 0; i < rows.length; i++) {
               twitts.push({
                   author: rows[i].ScreenName,
                   content: rows[i].Text,
-                  created_at: rows[i].DateTime
+                  created_at: rows[i].DateTime,
+                  user_link: rows[i].AuthorLink,
+                  twit_link: rows[i].TwitLink
               });
           }
           callback(twitts);
@@ -35,14 +36,13 @@ exports.insertTwit = function(twit, callback){
   var author = parse.escapeSQL(twit.user.name);
   var twitID = twit.id;
   var text = parse.escapeSQL(twit.text);
-  var query_string = 'INSERT INTO Twitter(ScreenName, DateTime, Text, Author, TwittsID) VALUE(\'' + screen_name + '\', \'' + created_at + '\', \'' + text + '\', \'' + author + '\', \'' + twitID + '\');';
-
+  var user_link = "https://twitter.com/"+twit.user.screen_name;
+  var twit_link = user_link + "/status/"+twit.id_str;
+  var query_string = 'INSERT INTO Twitter(ScreenName, DateTime, Text, Author, TwittsID, TwitLink, AuthorLink) VALUE(\'' + screen_name + '\', \'' + created_at + '\', \'' + text + '\', \'' + author + '\', \'' + twitID + '\', \'' + twit_link + '\', \'' + user_link + '\');';
   var query = connection.query(query_string);
   query.on('error', function(err) {
-      console.log(query_string);
       throw err;
   });
-  console.log(query.sql);
 }
 
 exports.open = function(){

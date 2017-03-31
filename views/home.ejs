@@ -34,6 +34,13 @@
                     <label for="exampleInputEmail2">Team</label>
                     <input type="text" class="form-control" id="team_name" placeholder="Jungle">
                 </div>
+                <script>
+                var continue = flase;
+                
+                function myFunction(p1, p2) {
+                      r             // The function returns the product of p1 and p2
+                }
+                </script>
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
         </div>
@@ -41,18 +48,25 @@
 
     <div class="col-md-8 col-md-offset-2">
         <div class="panel-group" id="accordion_@i">
-                <% for(var i = 0; i < results.length; i++){ %>
-                    <div class="panel panel-default" id="panel_@i">
-                        <div class="panel-heading">
+            <% for(var i = 0; i < results.length; i++){ %>
+                <div class="panel panel-default" id="panel_@i">
+                    <div class="panel-heading">
+                        <a href='<%=results[i].user_link%>' target="_blank">
                             <%=results[i].author%>
-                        </div>
-                        <div class="panel-body">
-                            <%=results[i].content%>
-                        </div>
-                        <div class="panel-footer">
+                        </a>
+                    </div>
+                    <div class="panel-body">
+                        <%=results[i].content%>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="text-left">
                             <%=results[i].created_at%>
                         </div>
+                        <div class="text-right">
+                            <a href='<%=results[i].twit_link%>' target="_blank">Goto Twitter</a>
+                        </div>
                     </div>
+                </div>
                 <% } %>
         </div>
     </div>
