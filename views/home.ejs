@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Footerball Express</title>
+</head>
+
+<body>
+    <div class="row form-group">
+        <div class="col-md-8 col-md-offset-4">
+            <img src="/assets/logo.png" style="width:300px;height:300px;">
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-inline" method="POST" action="/home">
+                <div class="form-group">
+                    <label for="exampleInputName2">Player Name</label>
+                    <input type="text" class="form-control" id="player_name" name="player_name" placeholder="Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail2">Team</label>
+                    <input type="text" class="form-control" id="team_name" placeholder="Jungle">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel-group" id="accordion_@i">
+                <% for(var i = 0; i < results.length; i++){ %>
+                    <div class="panel panel-default" id="panel_@i">
+                        <div class="panel-heading">
+                            <%=results[i].author%>
+                        </div>
+                        <div class="panel-body">
+                            <%=results[i].content%>
+                        </div>
+                        <div class="panel-footer">
+                            <%=results[i].created_at%>
+                        </div>
+                    </div>
+                <% } %>
+        </div>
+    </div>
+
+    </div>
+</body>
+
+</html>
